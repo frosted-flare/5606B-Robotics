@@ -14,6 +14,8 @@ from vex import *
 brain = Brain()
 controller = Controller()
 
+
+
 # Drive Motors #
 left_drive_1 = Motor(Ports.PORT1,GearSetting.RATIO_6_1,True)
 left_drive_2 = Motor(Ports.PORT2,GearSetting.RATIO_6_1,False)
@@ -23,6 +25,21 @@ right_drive_1 = Motor(Ports.PORT3,GearSetting.RATIO_6_1,True)
 right_drive_2 = Motor(Ports.PORT4,GearSetting.RATIO_6_1,False)
 right_motor_group = MotorGroup(right_drive_1,right_drive_2)
 
+## Drivetrain ##
+
+drivetrain = DriveTrain(left_motor_group,right_motor_group)
+
+drive_toggle = "Tank" # This will set the method of driving between tank and arcade
+
+
+def toggle():
+
+    global drive_toggle
+
+    if drive_toggle == "Tank":
+        drive_toggle = "Arcade"
+    else:
+        drive_toggle = "Tank"
 
 def autonomous():
     brain.screen.clear_screen()
@@ -35,29 +52,64 @@ def user_control():
     brain.screen.clear_screen()
     brain.screen.print("driver control")
 
-    # Variables #
-    drive_left = 0
-    drive_right = 0
-
     # place driver control in this while loop
     while True:
         
-        # Joystick For Tank Control #
-        motor_drive_left = controller.axis3.position()
-        motor_drive_right = controller.axis2.position()
+        ## Buttons ##
 
-        # Threshold So Drive Stays Still If Joystick Axis Does Not Return Exactly To 0
-        deadband = 15
-        if abs(drive_left) < deadband:
+        # Toggle #
+                
+        controller.buttonX.pressed(toggle)
+
+        ## Check For Drive Type ##
+
+        if drive_toggle == "Arcade": # Arcade
+
+            ## Variables ##
+            
+            motor_drive = 0
+            motor_turn = 0
+
+            # Joystick For Arcade Control #
+            motor_drive = controller.axis2.position()
+            motor_turn = controller.axis1.position()
+
+            # Threshold So Drive Stays Still If Joystick Axis Does Not Return Exactly To 0
+            deadband = 15
+            if abs(motor_drive) < deadband:
+                motor_drive = 0
+            if abs(motor_turn) < deadband:
+                motor_turn = 0    
+
+            ## Drivetrain ##
+
+            drivetrain.drive(FORWARD,motor_drive,PERCENT)
+            drivetrain.turn(FORWARD,motor_turn,PERCENT)
+
+
+        elif drive_toggle == "Tank": # Tank
+
+            ## Variables ##
+            
             motor_drive_left = 0
-        if abs(drive_right) < deadband:
-            motor_drive_right = 0    
+            motor_drive_right = 0
 
-        ## Motors ##
+            # Joystick For Tank Control #
+            motor_drive_left = controller.axis3.position()
+            motor_drive_right = controller.axis2.position()
 
-        # Drivetrain @
-        left_motor_group.spin(FORWARD,motor_drive_left, PERCENT)
-        right_motor_group.spin(FORWARD,motor_drive_right, PERCENT)
+            # Threshold So Drive Stays Still If Joystick Axis Does Not Return Exactly To 0
+            deadband = 15
+            if abs(motor_drive_left) < deadband:
+                motor_drive_left = 0
+            if abs(motor_drive_right) < deadband:
+                motor_drive_right = 0    
+
+            ## Motors ##
+
+            left_motor_group.spin(FORWARD,motor_drive_left, PERCENT)
+            right_motor_group.spin(FORWARD,motor_drive_right, PERCENT)
+
 
         sleep(10) # Stops loop from running too fast.
 
@@ -66,3 +118,10 @@ comp = Competition(user_control, autonomous)
 
 # actions to do when the program starts
 brain.screen.clear_screen()
+
+
+if drive_toggle == "Arcade": # Arcade
+    ### Code For Arcade
+elif drive_toggle == "Tank": # Tank
+    ### Code For Tank
+
