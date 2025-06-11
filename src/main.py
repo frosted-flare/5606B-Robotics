@@ -41,24 +41,46 @@ def toggle():
     else:
         drive_toggle = "Tank"
 
-def autonomous():
+def update_screen(): 
+
+    ## Updates The Screen With All The Current Info ##
+
     brain.screen.clear_screen()
-    brain.screen.print("autonomous code")
+
+    if comp.is_driver_control:
+        brain.screen.print("State: Driver Control")
+    elif comp.is_autonomous:
+        brain.screen.print("State: Autonomous")
+    else:
+        brain.screen.print("State: None")
+
+    brain.screen.next_row()
+    brain.screen.print("Drivetrain Mode:", drive_toggle)
+
+    brain.screen.next_row()
+    brain.screen.print("Left Motor Group Velocity:", left_motor_group.velocity)
+    brain.screen.next_row()
+    brain.screen.print("Right Motor Group Velocity:", right_motor_group.velocity)
+
+def autonomous():
+
+    update_screen()    
+
     # place automonous code here
 
 def user_control():
 
-    # Brain #
-    brain.screen.clear_screen()
-    brain.screen.print("driver control")
+    update_screen()
 
     controller.buttonX.pressed(toggle)
 
     # place driver control in this while loop
     while True:
         
-        ## Buttons ##
+        ## Screen ##
                 
+        update_screen()
+
 
         ## Check For Drive Type ##
 
