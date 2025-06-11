@@ -17,8 +17,8 @@ controller = Controller()
 
 
 # Drive Motors #
-left_drive_1 = Motor(Ports.PORT1,GearSetting.RATIO_6_1,True)
-left_drive_2 = Motor(Ports.PORT2,GearSetting.RATIO_6_1,False)
+left_drive_1 = Motor(Ports.PORT1,GearSetting.RATIO_6_1,False)
+left_drive_2 = Motor(Ports.PORT2,GearSetting.RATIO_6_1,True)
 left_motor_group = MotorGroup(left_drive_1,left_drive_2)
 
 right_drive_1 = Motor(Ports.PORT3,GearSetting.RATIO_6_1,True)
@@ -52,14 +52,13 @@ def user_control():
     brain.screen.clear_screen()
     brain.screen.print("driver control")
 
+    controller.buttonX.pressed(toggle)
+
     # place driver control in this while loop
     while True:
         
         ## Buttons ##
-
-        # Toggle #
                 
-        controller.buttonX.pressed(toggle)
 
         ## Check For Drive Type ##
 
@@ -83,9 +82,10 @@ def user_control():
 
             ## Drivetrain ##
 
-            drivetrain.drive(FORWARD,motor_drive,PERCENT)
-            drivetrain.turn(FORWARD,motor_turn,PERCENT)
-
+            left_motor_group.set_velocity((controller.axis2.position() + controller.axis1.position()), PERCENT)
+            right_motor_group.set_velocity((controller.axis2.position() - controller.axis1.position()), PERCENT)
+            left_motor_group.spin(FORWARD)
+            right_motor_group.spin(FORWARD)
 
         elif drive_toggle == "Tank": # Tank
 
@@ -120,8 +120,4 @@ comp = Competition(user_control, autonomous)
 brain.screen.clear_screen()
 
 
-if drive_toggle == "Arcade": # Arcade
-    ### Code For Arcade
-elif drive_toggle == "Tank": # Tank
-    ### Code For Tank
 
