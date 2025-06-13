@@ -46,7 +46,7 @@ def update_screen():
     ## Updates The Screen With All The Current Info ##
 
     brain.screen.clear_screen()
-
+    brain.screen.set_cursor(1,1)
     if comp.is_driver_control:
         brain.screen.print("State: Driver Control")
     elif comp.is_autonomous:
@@ -54,13 +54,18 @@ def update_screen():
     else:
         brain.screen.print("State: None")
 
-    brain.screen.next_row()
+    brain.screen.set_cursor(2,1)
     brain.screen.print("Drivetrain Mode:", drive_toggle)
 
-    brain.screen.next_row()
-    brain.screen.print("Left Motor Group Velocity:", left_motor_group.velocity)
-    brain.screen.next_row()
-    brain.screen.print("Right Motor Group Velocity:", right_motor_group.velocity)
+    brain.screen.set_cursor(3,1)
+    brain.screen.print("Left Motor Group Velocity:", left_motor_group.velocity())
+    brain.screen.set_cursor(4,1)
+    brain.screen.print("Right Motor Group Velocity:", right_motor_group.velocity())
+
+    brain.screen.set_cursor(5,1)
+    brain.screen.print("Left Motor Group Heat:", left_motor_group.temperature())
+    brain.screen.set_cursor(6,1)
+    brain.screen.print("Right Motor Group Heat:", right_motor_group.temperature())
 
 def autonomous():
 
