@@ -17,11 +17,11 @@ controller = Controller()
 
 
 # Drive Motors #
-left_drive_1 = Motor(Ports.PORT1,GearSetting.RATIO_6_1,False)
+left_drive_1 = Motor(Ports.PORT1,GearSetting.RATIO_6_1,True)
 left_drive_2 = Motor(Ports.PORT2,GearSetting.RATIO_6_1,True)
 left_motor_group = MotorGroup(left_drive_1,left_drive_2)
 
-right_drive_1 = Motor(Ports.PORT3,GearSetting.RATIO_6_1,True)
+right_drive_1 = Motor(Ports.PORT3,GearSetting.RATIO_6_1,False)
 right_drive_2 = Motor(Ports.PORT4,GearSetting.RATIO_6_1,False)
 right_motor_group = MotorGroup(right_drive_1,right_drive_2)
 
@@ -63,9 +63,11 @@ def update_screen():
     brain.screen.print("Right Motor Group Velocity:", right_motor_group.velocity())
 
     brain.screen.set_cursor(5,1)
-    brain.screen.print("Left Motor Group Heat:", left_motor_group.temperature())
+    brain.screen.print("Left Motor Group Temperature:", left_motor_group.temperature())
     brain.screen.set_cursor(6,1)
-    brain.screen.print("Right Motor Group Heat:", right_motor_group.temperature())
+    brain.screen.print("Right Motor Group Temperature:", right_motor_group.temperature())
+
+
 
 def autonomous():
 
