@@ -64,18 +64,18 @@ def update_screen():
     brain.screen.set_cursor(2,1)
     brain.screen.print("Drivetrain Mode:", drive_toggle)
     brain.screen.set_cursor(3,1)
-    brain.screen.print("Drivetrain Speed:", drive_speed)
+    brain.screen.print("Drivetrain Speed:",drive_speed*100, "Percent")
 
 
     brain.screen.set_cursor(4,1)
-    brain.screen.print("Left Motor Group Velocity:", left_motor_group.velocity())
+    brain.screen.print("Left Motor Group Velocity:", left_motor_group.velocity(),"RPM")
     brain.screen.set_cursor(5,1)
-    brain.screen.print("Right Motor Group Velocity:", right_motor_group.velocity())
+    brain.screen.print("Right Motor Group Velocity:", right_motor_group.velocity(),"RPM")
 
     brain.screen.set_cursor(6,1)
-    brain.screen.print("Left Motor Group Temperature:", left_motor_group.temperature())
+    brain.screen.print("Left Motor Group Temperature:", left_motor_group.temperature(), "Degrees")
     brain.screen.set_cursor(7,1)
-    brain.screen.print("Right Motor Group Temperature:", right_motor_group.temperature())
+    brain.screen.print("Right Motor Group Temperature:", right_motor_group.temperature(), "Degrees")
 
 
 
