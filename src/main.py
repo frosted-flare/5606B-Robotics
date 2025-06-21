@@ -30,9 +30,9 @@ right_motor_group = MotorGroup(right_drive_1,right_drive_2)
 drivetrain = DriveTrain(left_motor_group,right_motor_group)
 
 drive_toggle = "Tank" # This will set the method of driving between tank and arcade
+drive_speed = 1 # This how fast the robot will drive in percentage
 
-
-def toggle():
+def toggle_mode():
 
     global drive_toggle
 
@@ -41,6 +41,13 @@ def toggle():
     else:
         drive_toggle = "Tank"
 
+def toggle_speed():
+    global drive_speed
+    if drive_speed == 1:
+        drive_speed = 0.5
+    else:
+        drive_speed = 1
+    
 def update_screen(): 
 
     ## Updates The Screen With All The Current Info ##
@@ -56,15 +63,18 @@ def update_screen():
 
     brain.screen.set_cursor(2,1)
     brain.screen.print("Drivetrain Mode:", drive_toggle)
-
     brain.screen.set_cursor(3,1)
-    brain.screen.print("Left Motor Group Velocity:", left_motor_group.velocity())
+    brain.screen.print("Drivetrain Speed:", drive_speed)
+
+
     brain.screen.set_cursor(4,1)
+    brain.screen.print("Left Motor Group Velocity:", left_motor_group.velocity())
+    brain.screen.set_cursor(5,1)
     brain.screen.print("Right Motor Group Velocity:", right_motor_group.velocity())
 
-    brain.screen.set_cursor(5,1)
-    brain.screen.print("Left Motor Group Temperature:", left_motor_group.temperature())
     brain.screen.set_cursor(6,1)
+    brain.screen.print("Left Motor Group Temperature:", left_motor_group.temperature())
+    brain.screen.set_cursor(7,1)
     brain.screen.print("Right Motor Group Temperature:", right_motor_group.temperature())
 
 
@@ -79,7 +89,8 @@ def user_control():
 
     update_screen()
 
-    controller.buttonX.pressed(toggle)
+    controller.buttonX.pressed(toggle_mode)
+    controller.buttonR2.pressed(toggle_speed)
 
     # place driver control in this while loop
     while True:
@@ -99,8 +110,8 @@ def user_control():
             motor_turn = 0
 
             # Joystick For Arcade Control #
-            motor_drive = controller.axis2.position()
-            motor_turn = controller.axis1.position()
+            motor_drive = controller.axis2.position() * drive_speed
+            motor_turn = controller.axis1.position() * drive_speed
 
             # Threshold So Drive Stays Still If Joystick Axis Does Not Return Exactly To 0
             deadband = 15
@@ -124,8 +135,8 @@ def user_control():
             motor_drive_right = 0
 
             # Joystick For Tank Control #
-            motor_drive_left = controller.axis3.position()
-            motor_drive_right = controller.axis2.position()
+            motor_drive_left = controller.axis3.position() * drive_speed
+            motor_drive_right = controller.axis2.position() * drive_speed
 
             # Threshold So Drive Stays Still If Joystick Axis Does Not Return Exactly To 0
             deadband = 15
