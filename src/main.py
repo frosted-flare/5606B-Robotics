@@ -70,7 +70,16 @@ def change_status_screen(): # Changes the current status screen
 
 def update_screen(): 
 
-    ## Updates The Screen With All The Current Info ##
+    ## Controller screen ##
+    controller.screen.clear_screen()
+    controller.screen.set_cursor(1,1)
+
+    controller.screen.print("Mode:", drive_toggle)
+    controller.screen.set_cursor(2,1)
+    controller.screen.print("Speed:",drive_speed*100)
+    controller.screen.set_cursor(3,1)
+
+    ## Updates The Brain Screen With All The Current Info ##
 
     if current_status_screen == 0:
 
