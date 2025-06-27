@@ -1,5 +1,5 @@
 # 5606B Robotics - Servo Of Wrath
-![ac8705df-e613-45b1-86c9-2cb2affce220](https://github.com/user-attachments/assets/4ece07a6-a371-40b1-98e3-5342108a1943)
+![ac8705df-e613-45b1-86c9-2cb2affce220 (1)](https://github.com/user-attachments/assets/5d14e3fe-0657-4f09-a068-7c3bfe0c0988)
 This is a GitHub repository for our team 5606B
 
 ## Description
