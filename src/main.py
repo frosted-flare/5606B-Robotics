@@ -82,7 +82,7 @@ def update_screen():
     ## Updates The Brain Screen With All The Current Info ##
 
     if current_status_screen == 0:
-
+        
         brain.screen.clear_screen()
         brain.screen.set_cursor(1,1)
 
@@ -109,6 +109,10 @@ def update_screen():
         brain.screen.set_cursor(9,1)
         brain.screen.print("  Right Motor Group Temperature:", right_motor_group.temperature(), "Degrees")
         brain.screen.set_cursor(10,1)
+        
+
+        if brain.sdcard.is_inserted() == True:
+            brain.screen.draw_image_from_file('logo_small_size.png',380,0)
 
     elif current_status_screen == 1:
         brain.screen.clear_screen()
@@ -123,6 +127,10 @@ def update_screen():
         brain.screen.print("  Left Motor Group Velocity:", left_motor_group.velocity(),"RPM")
         brain.screen.set_cursor(5,1)
 
+        if brain.sdcard.is_inserted() == True:
+            brain.screen.draw_image_from_file('logo_small_size.png',380,0)
+
+
     elif current_status_screen == 2:
         brain.screen.clear_screen()
         brain.screen.set_cursor(1,1)
@@ -135,6 +143,12 @@ def update_screen():
 
         brain.screen.print("  Right Motor Group Velocity:", right_motor_group.velocity(),"RPM")
         brain.screen.set_cursor(5,1)
+
+
+        if brain.sdcard.is_inserted() == True:
+            brain.screen.draw_image_from_file('logo_small_size.png',380,0)
+
+
 
 
 
