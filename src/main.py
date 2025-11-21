@@ -15,15 +15,16 @@ brain = Brain()
 controller = Controller()
 
 
-
 # Drive Motors #
 left_drive_1 = Motor(Ports.PORT1,GearSetting.RATIO_6_1,True)
 left_drive_2 = Motor(Ports.PORT2,GearSetting.RATIO_6_1,True)
-left_motor_group = MotorGroup(left_drive_1,left_drive_2)
+left_drive_3 = Motor(Ports.PORT3,GearSetting.RATIO_6_1,False)
+left_motor_group = MotorGroup(left_drive_1,left_drive_2,left_drive_3)
 
-right_drive_1 = Motor(Ports.PORT3,GearSetting.RATIO_6_1,False)
-right_drive_2 = Motor(Ports.PORT4,GearSetting.RATIO_6_1,False)
-right_motor_group = MotorGroup(right_drive_1,right_drive_2)
+right_drive_1 = Motor(Ports.PORT4,GearSetting.RATIO_6_1,False)
+right_drive_2 = Motor(Ports.PORT5,GearSetting.RATIO_6_1,False)
+right_drive_3 = Motor(Ports.PORT6,GearSetting.RATIO_6_1,True)
+right_motor_group = MotorGroup(right_drive_1,right_drive_2,left_drive_3)
 
 ## Drivetrain ##
 
