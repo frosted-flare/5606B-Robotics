@@ -53,12 +53,6 @@ def toggle_mode():
     else:
         drive_toggle = "Tank"
 
-def toggle_speed():
-    global drive_speed
-    if drive_speed == 1:
-        drive_speed = 0.5
-    else:
-        drive_speed = 1
     
 def change_status_screen(): # Changes the current status screen
 
@@ -169,7 +163,6 @@ def user_control():
     brain.screen.pressed(change_status_screen)
 
     controller.buttonX.pressed(toggle_mode)
-    controller.buttonR2.pressed(toggle_speed)
 
     # place driver control in this while loop
     while True:
