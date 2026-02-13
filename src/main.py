@@ -149,9 +149,9 @@ def update_screen():
         brain.screen.print("  Drivetrain Speed:",drive_speed*100, "Percent")
         brain.screen.set_cursor(8,1)
 
-        brain.screen.print("  Left Motor Group Temperature:", left_motor_group.temperature(TemperatureUnits.CELSIUS), "Degrees")
+        brain.screen.print("  Left Motor Group Temperature:",(left_drive_1.temperature()+left_drive_2.temperature()+left_drive_3.temperature())/3, "Degrees")
         brain.screen.set_cursor(9,1)
-        brain.screen.print("  Right Motor Group Temperature:", right_motor_group.temperature(TemperatureUnits.CELSIUS), "Degrees")
+        brain.screen.print("  Right Motor Group Temperature:",(right_drive_1.temperature()+right_drive_2.temperature()+right_drive_3.temperature())/3, "Degrees")
         brain.screen.set_cursor(10,1)
         
 
@@ -169,7 +169,12 @@ def update_screen():
 
 
         brain.screen.print("  Left Motor Group Velocity:", left_motor_group.velocity(),"RPM")
-        brain.screen.set_cursor(5,1)
+        brain.screen.set_cursor(6,1)
+        brain.screen.print("  Motor One Temperature:",left_drive_1.temperature(), "Degrees")
+        brain.screen.set_cursor(7,1)
+        brain.screen.print("  Motor Two Temperature:",left_drive_2.temperature(), "Degrees")
+        brain.screen.set_cursor(8,1)
+        brain.screen.print("  Motor Three Temperature:",left_drive_3.temperature(), "Degrees")
 
         if brain.sdcard.is_inserted() == True:
             brain.screen.draw_image_from_file('logo_small_size.png',380,0)
@@ -186,8 +191,12 @@ def update_screen():
 
 
         brain.screen.print("  Right Motor Group Velocity:", right_motor_group.velocity(),"RPM")
-        brain.screen.set_cursor(5,1)
-
+        brain.screen.set_cursor(6,1)
+        brain.screen.print("  Motor One Temperature:",right_drive_1.temperature(), "Degrees")
+        brain.screen.set_cursor(7,1)
+        brain.screen.print("  Motor Two Temperature:",right_drive_2.temperature(), "Degrees")
+        brain.screen.set_cursor(8,1)
+        brain.screen.print("  Motor Three Temperature:",right_drive_3.temperature(), "Degrees")
 
         if brain.sdcard.is_inserted() == True:
             brain.screen.draw_image_from_file('logo_small_size.png',380,0)
