@@ -29,6 +29,7 @@ right_motor_group = MotorGroup(right_drive_1,right_drive_2,right_drive_3)
 ## Drivetrain ##
 
 drivetrain = DriveTrain(left_motor_group,right_motor_group)
+drivetrain.set_stopping(BrakeType.COAST)
 
 drive_toggle = "Tank" # This will set the method of driving between tank and arcade
 drive_speed = 1 # This how fast the robot will drive in percentage
@@ -44,7 +45,7 @@ belt_1_state = 0
 outake_1_state = 0
 
 loader_pneumatic = Pneumatics(brain.three_wire_port.a)
-goal_pneumatic_state = Pneumatics(brain.three_wire_port.b)
+goal_pneumatic = Pneumatics(brain.three_wire_port.b)
 parking_pneumatic = Pneumatics(brain.three_wire_port.c)
 
 loader_pneumatic_state = False
@@ -63,6 +64,7 @@ status_screen_debounce = 400
 last_status_update = timer.time()
 
 def toggle_loader_pnumatic():
+    global loader_pneumatic_state
     if loader_pneumatic_state == True:
         loader_pneumatic_state = False
         loader_pneumatic.close()
@@ -72,22 +74,24 @@ def toggle_loader_pnumatic():
         loader_pneumatic.open()
 
 def toggle_goal_pnumatic():
+    global goal_pneumatic_state
     if goal_pneumatic_state == True:
         goal_pneumatic_state = False
-        loader_pneumatic.close()
+        goal_pneumatic.close()
 
     else:
         goal_pneumatic_state = True
-        loader_pneumatic.open()
+        goal_pneumatic.open()
 
 def toggle_parking_pnumatic():
+    global parking_pneumatic_state
     if parking_pneumatic_state == True:
         parking_pneumatic_state = False
-        loader_pneumatic.close()
+        parking_pneumatic.close()
 
     else:
         parking_pneumatic_state = True
-        loader_pneumatic.open()
+        parking_pneumatic.open()
 
 def toggle_mode():
 
@@ -145,9 +149,9 @@ def update_screen():
         brain.screen.print("  Drivetrain Speed:",drive_speed*100, "Percent")
         brain.screen.set_cursor(8,1)
 
-        brain.screen.print("  Left Motor Group Temperature:", left_motor_group.temperature(), "Degrees")
+        brain.screen.print("  Left Motor Group Temperature:", left_motor_group.temperature(TemperatureUnits.CELSIUS), "Degrees")
         brain.screen.set_cursor(9,1)
-        brain.screen.print("  Right Motor Group Temperature:", right_motor_group.temperature(), "Degrees")
+        brain.screen.print("  Right Motor Group Temperature:", right_motor_group.temperature(TemperatureUnits.CELSIUS), "Degrees")
         brain.screen.set_cursor(10,1)
         
 
@@ -218,9 +222,25 @@ def move_outake(value):
 
 def autonomous():
 
-    update_screen()    
+    update_screen()  
+    move_belt(1)  
+    drivetrain.drive_for(FORWARD,1200,MM,30,PERCENT)
+    drivetrain.turn_for(LEFT,80,DEGREES,10,PERCENT)
+    toggle_loader_pnumatic()
+    drivetrain.drive_for(FORWARD,50,MM,20,PERCENT)
+    drivetrain.drive_for(FORWARD,550,MM,25,PERCENT)
+    drivetrain.drive_for(REVERSE,75,MM,20,PERCENT)
+    drivetrain.drive_for(FORWARD,150,MM,40,PERCENT)
+    drivetrain.drive_for(REVERSE,75,MM,20,PERCENT)
+    drivetrain.drive_for(FORWARD,150,MM,40,PERCENT)
+    drivetrain.drive_for(REVERSE,75,MM,20,PERCENT)
+    drivetrain.drive_for(FORWARD,150,MM,40,PERCENT)
+    drivetrain.drive_for(REVERSE,100,MM,20,PERCENT)
+    drivetrain.turn_for(right_drive_1,10,DEGREES,10,PERCENT)
+    drivetrain.drive_for(REVERSE,1100,MM,40,PERCENT)
+    move_outake(1)
 
-    # place automonous code here
+
 
 def user_control():
     global last_status_update
@@ -310,6 +330,5 @@ comp = Competition(user_control, autonomous)
 
 # actions to do when the program starts
 brain.screen.clear_screen()
-
 
 
